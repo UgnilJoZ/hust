@@ -9,6 +9,5 @@ pub use error::{Error, Result};
 pub mod lights;
 pub mod bridge;
 pub use bridge::Bridge;
-pub mod config;
 mod discovery;
 pub use discovery::find_bridges;
