@@ -91,12 +91,13 @@ impl Iterator for BridgeFinder {
 /// Example:
 /// ```
 /// use std::time::Duration;
-/// use hust::find_bridges;
+/// use hust::{find_bridges, Result};
 /// 
 /// fn main() -> Result<()> {
-///     for bridge in find_bridges(Duration::from_secs_f64(2))? {
+///     for bridge in find_bridges(Duration::from_secs(2))? {
 ///         println!("{:?}", bridge?);
 ///     }
+///     Ok(())
 /// }
 /// ```
 pub fn find_bridges(timeout: Duration) -> std::io::Result<BridgeFinder> {

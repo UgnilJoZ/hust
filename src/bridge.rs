@@ -55,7 +55,7 @@ impl Bridge {
         &self.device.friendly_name
     }
 
-    /// Register a user and return its name.
+    /// Registers a user and return its name.
     /// 
     /// Save it to communicate further with the bridge, e.g. to switch lights.
     /// 
@@ -68,6 +68,7 @@ impl Bridge {
         params.insert("devicetype", "Hust Hue API client");
         let response = client.post(&url).json(&params).send()?;
         let response: Vec<ApiResponseSection> = serde_json::from_reader(response)?;
+        // Now, analyze the response to measure success or failure.
         let mut errors = vec![];
         let mut success = None;
         for section in response {
@@ -99,9 +100,9 @@ impl Bridge {
     /// `user` is the user you have to register with `register_user`.
     /// 
     /// `light` is the identifier of the light. All identifiers can
-    /// be obtained by listing the dictionary keys of `get_all_lights`.
+    /// be obtained by listing the HashMap keys of `get_all_lights`.
     /// 
-    /// To switch the light off, please specify `on` as `false`.
+    /// To switch the light off, specify `on` as `false`.
     pub fn switch_light(&self, user: &str, light: &str, on: bool) -> Result<()> {
         let client = reqwest::blocking::Client::new();
         let url = format!("{}api/{}/lights/{}/state", self.url_base, user, light);
@@ -112,6 +113,7 @@ impl Bridge {
             .json(&params)
             .send()?;
         let response: Vec<ApiResponseSection> = serde_json::from_reader(response)?;
+        // Now, analyze the response to measure success or failure.
         let mut errors = vec![];
         let success = response
             .into_iter()

@@ -5,6 +5,7 @@ authors = ["Jan Ole Zabel <jan.zabel@posteo.de>"]
 edition = "2018"
 description = "Hue bridge client library"
 license = "AGPL-3.0"
+repository = "https://github.com/UgnilJoZ/hust"
 
 [dependencies]
 reqwest = {version = "0.10", features = ["blocking", "json"], default-features = false}
