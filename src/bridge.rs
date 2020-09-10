@@ -50,7 +50,7 @@ impl Bridge {
     /// Creates a Bridge object from a description URL like returned in SSDP discovery.
     pub fn from_description_url(url: String) -> Result<Bridge> {
         let response = get(&url)?.text()?;
-        let bridge: Bridge = serde_xml::from_str(&response)?;
+        let bridge: Bridge = serde_xml_rs::from_str(&response)?;
         Ok(bridge)
     }
 

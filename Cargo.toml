@@ -9,7 +9,7 @@ repository = "https://github.com/UgnilJoZ/hust"
 
 [dependencies]
 reqwest = {version = "0.10", features = ["blocking", "json"], default-features = false}
-serde = "0.8"
-serde_xml = "0.9"
-serde_derive = "0.8"
-serde_json = "0.8"
+serde = "1.0"
+serde-xml-rs = "0.4"
+serde_derive = "1.0"
+serde_json = "1.0"

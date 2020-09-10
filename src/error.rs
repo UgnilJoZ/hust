@@ -10,7 +10,7 @@ pub struct ApiError {
 pub enum Error {
     Io(std::io::Error),
     Reqwest(reqwest::Error),
-    Xml(serde_xml::Error),
+    Xml(serde_xml_rs::Error),
     ApiErrors(Vec<ApiError>),
 	Json(serde_json::Error),
     NoBridgeFound,
@@ -29,8 +29,8 @@ impl From<reqwest::Error> for Error {
     }
 }
 
-impl From<serde_xml::Error> for Error {
-    fn from(error: serde_xml::Error) -> Error {
+impl From<serde_xml_rs::Error> for Error {
+    fn from(error: serde_xml_rs::Error) -> Error {
         Error::Xml(error)
     }
 }
