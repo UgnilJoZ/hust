@@ -5,6 +5,7 @@ use std::io::{Error, ErrorKind};
 use std::net::UdpSocket;
 use std::time::{Duration, Instant};
 
+/// SSDP service discovery request
 const DISCOVERY_TEXT: &[u8] = b"M-SEARCH * HTTP/1.1
 HOST: 239.255.255.250:1900
 MAN: ssdp:discover
@@ -13,6 +14,9 @@ ST: ssdp:all
 
 ";
 
+/// Receives one bridge URL.
+/// 
+/// Before, the discovery text should have been sent on the socket via multicast.
 fn receive_answer(socket: &UdpSocket) -> std::io::Result<String> {
     let mut buf = [0; 8192];
     let (answer_size, _) = socket.recv_from(&mut buf)?;
@@ -31,6 +35,8 @@ fn receive_answer(socket: &UdpSocket) -> std::io::Result<String> {
     Err(Error::from(ErrorKind::InvalidData))?
 }
 
+
+/// An iterator over the bridges in this network
 pub struct BridgeFinder {
     pub start: Instant,
     pub socket: UdpSocket,

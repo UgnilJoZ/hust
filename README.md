@@ -9,3 +9,9 @@ A little Hue bridge library written in Rust.
 * ☑ Discovery
 * ☑ User registration
 * ☑ Light listing / switching
+
+### CLI
+A cli program is available at https://github.com/UgnilJoZ/hust-cli, you may install it with
+```
+cargo install hust-cli
+```

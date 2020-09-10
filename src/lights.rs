@@ -1,16 +1,5 @@
 #[derive(Deserialize, Serialize, Debug, Default)]
-pub struct LightState {
-	pub on: bool,
-	#[serde(rename = "bri")]
-	pub brightness: u8,
-	pub ct: u16,
-	pub alert: String,
-	pub colormode: String,
-	pub mode: String,
-	pub reachable: bool,
-}
-
-#[derive(Deserialize, Serialize, Debug, Default)]
+/// Attributes of a light
 pub struct Light {
 	pub uniqueid: String,
 	#[serde(rename = "type")]
@@ -22,4 +11,19 @@ pub struct Light {
 	pub state: LightState,
 	pub swversion: String,
 	pub swconfigid: String,
+}
+
+#[derive(Deserialize, Serialize, Debug, Default)]
+/// Current state of a light
+pub struct LightState {
+	pub on: bool,
+	/// Brightness
+	pub bri: u8,
+	/// Color tone
+	pub ct: u16,
+	/// Alert mode
+	pub alert: String,
+	pub colormode: String,
+	pub mode: String,
+	pub reachable: bool,
 }

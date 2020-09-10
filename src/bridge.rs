@@ -4,6 +4,7 @@ use reqwest::blocking::get;
 use std::collections::HashMap;
 
 #[derive(Deserialize, Serialize, Debug)]
+/// Core defice infoormation about a bridge
 pub struct BridgeDevice {
     #[serde(rename = "UDN")]
     pub udn: String,
@@ -35,6 +36,9 @@ pub struct Bridge {
 }
 
 #[derive(Deserialize, Debug)]
+/// Basic element of a response from a bridge
+/// 
+/// Bridges will send back a list of this, serialized as JSON
 pub enum ApiResponseSection {
     #[serde(rename = "error")]
     Err(ApiError),
