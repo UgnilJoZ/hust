@@ -16,6 +16,7 @@ pub struct Light {
 #[derive(Deserialize, Serialize, Debug, Default)]
 /// Current state of a light
 pub struct LightState {
+	/// Tells wether the light is turned on
 	pub on: bool,
 	/// Brightness
 	pub bri: u8,

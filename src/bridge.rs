@@ -117,6 +117,8 @@ impl Bridge {
     /// 
     /// `light` is the identifier of the light. All identifiers can
     /// be obtained by listing the HashMap keys of `get_all_lights`.
+    /// 
+    /// `key` can be any attributee in [`crate::lights::LightState`].
     pub fn modify_light<T: serde::ser::Serialize>(&self, user: &str, light: &str, key: &str, value: T) -> Result<()> {
         let client = reqwest::blocking::Client::new();
         let url = format!("{}api/{}/lights/{}/state", self.url_base, user, light);
