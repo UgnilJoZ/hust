@@ -88,6 +88,47 @@ impl Bridge {
         }
 		Err(errors)?
     }
+
+    /// Analyzes the response to a light changing request
+    /// 
+    /// To measure success or failure of an operation that tried to modify
+    /// a light, its response has to be looked over
+    fn light_change_result(&self, response: Vec<ApiResponseSection>) -> Result<()> {
+        let mut errors = vec![];
+        let success = response
+            .into_iter()
+            .any(|section|
+                match section {
+                    ApiResponseSection::Success(_) => true,
+                    ApiResponseSection::Err(e) => {
+                        errors.push(e);
+                        false
+                    }
+                });
+        if success {
+            return Ok(())
+        } 
+        Err(errors)?
+    }
+
+    /// Set an attribute of a light.
+    /// 
+    /// `user` is the user you have to register with `register_user`.
+    /// 
+    /// `light` is the identifier of the light. All identifiers can
+    /// be obtained by listing the HashMap keys of `get_all_lights`.
+    pub fn modify_light<T: serde::ser::Serialize>(&self, user: &str, light: &str, key: &str, value: T) -> Result<()> {
+        let client = reqwest::blocking::Client::new();
+        let url = format!("{}api/{}/lights/{}/state", self.url_base, user, light);
+        let mut params = HashMap::new();
+        params.insert(key, value);
+        let response = client
+            .put(&url)
+            .json(&params)
+            .send()?;
+        let response: Vec<ApiResponseSection> = serde_json::from_reader(response)?;
+        self.light_change_result(response)
+    }
     
     /// List all lights connected to this bridge
     /// 
@@ -108,30 +149,6 @@ impl Bridge {
     /// 
     /// To switch the light off, specify `on` as `false`.
     pub fn switch_light(&self, user: &str, light: &str, on: bool) -> Result<()> {
-        let client = reqwest::blocking::Client::new();
-        let url = format!("{}api/{}/lights/{}/state", self.url_base, user, light);
-        let mut params = HashMap::new();
-        params.insert("on", on);
-        let response = client
-            .put(&url)
-            .json(&params)
-            .send()?;
-        let response: Vec<ApiResponseSection> = serde_json::from_reader(response)?;
-        // Now, analyze the response to measure success or failure.
-        let mut errors = vec![];
-        let success = response
-            .into_iter()
-            .any(|section|
-                match section {
-                    ApiResponseSection::Success(_) => true,
-                    ApiResponseSection::Err(e) => {
-                        errors.push(e);
-                        false
-                    }
-                });
-        if success {
-            return Ok(())
-        } 
-        Err(errors)?
+        self.modify_light(user, light, "on", on)
     }
 }
