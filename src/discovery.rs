@@ -106,6 +106,6 @@ impl Iterator for BridgeFinder {
 ///     Ok(())
 /// }
 /// ```
-pub fn find_bridges(timeout: Duration) -> std::io::Result<BridgeFinder> {
+pub fn find_bridges(timeout: Duration) -> std::io::Result<impl Iterator<Item=Result<Bridge>>> {
     BridgeFinder::new(timeout)
 }
