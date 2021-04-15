@@ -38,9 +38,13 @@ fn receive_answer(socket: &UdpSocket) -> std::io::Result<String> {
 
 /// An iterator over the bridges in this network
 pub struct BridgeFinder {
+    /// Birthday of the bridge finder, needed for timeout
     pub start: Instant,
+    /// The socket on which the responses are exepected
     pub socket: UdpSocket,
+    /// Timeout after which the iteration will end
     pub timeout: Duration,
+    /// Enables deduplication of the received URLs
     pub seen_urls: HashSet<String>,
 }
 

@@ -97,7 +97,7 @@ impl Bridge {
         let mut errors = vec![];
         let success = response
             .into_iter()
-            .any(|section|
+            .any(|section| // Does any part of the response indicate failure?
                 match section {
                     ApiResponseSection::Success(_) => true,
                     ApiResponseSection::Err(e) => {
@@ -113,12 +113,12 @@ impl Bridge {
 
     /// Set an attribute of a light.
     /// 
-    /// `user` is the user you have to register with `register_user`.
+    /// `user` is the user you had to register with `register_user`.
     /// 
     /// `light` is the identifier of the light. All identifiers can
     /// be obtained by listing the HashMap keys of `get_all_lights`.
     /// 
-    /// `key` can be any attributee in [`crate::lights::LightState`].
+    /// `key` can be any attribute of [`crate::lights::LightState`].
     pub fn modify_light<T: serde::ser::Serialize>(&self, user: &str, light: &str, key: &str, value: T) -> Result<()> {
         let client = reqwest::blocking::Client::new();
         let url = format!("{}api/{}/lights/{}/state", self.url_base, user, light);
@@ -144,7 +144,7 @@ impl Bridge {
 
     /// Switch light on / off.
     /// 
-    /// `user` is the user you have to register with `register_user`.
+    /// `user` is the user you had to register with `register_user`.
     /// 
     /// `light` is the identifier of the light. All identifiers can
     /// be obtained by listing the HashMap keys of `get_all_lights`.
